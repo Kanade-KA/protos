@@ -1,4 +1,4 @@
-module proto-go
+module github.com/Kanade-KA/protos/proto-go
 
 go 1.17
 
