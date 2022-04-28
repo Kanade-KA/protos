@@ -3,7 +3,7 @@ syntax="proto3";
 option go_package = "github.com/Kanade-KA/protos/proto-go";
 
 message Game {
-  string gamenumber=1;
+  int64 gamenumber=1;
   int64 players = 2;
 }
 
