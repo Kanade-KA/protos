@@ -1,6 +1,6 @@
 syntax="proto3";
 
-option go_package = "https://github.com/Kanade-KA/protos/proto-go";
+option go_package = "github.com/Kanade-KA/protos/proto-go";
 
 message Game {
   string gamenumber=1;
