@@ -18,88 +18,86 @@ import (
 // Requires gRPC-Go v1.32.0 or later.
 const _ = grpc.SupportPackageIsVersion7
 
-// GameServiceClient is the client API for GameService service.
+// JuegosClient is the client API for Juegos service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type GameServiceClient interface {
-	// Unary
-	Play(ctx context.Context, in *PlayRequest, opts ...grpc.CallOption) (*PlayResponse, error)
+type JuegosClient interface {
+	Jugar(ctx context.Context, in *Partida, opts ...grpc.CallOption) (*Resultado, error)
 }
 
-type gameServiceClient struct {
+type juegosClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewGameServiceClient(cc grpc.ClientConnInterface) GameServiceClient {
-	return &gameServiceClient{cc}
+func NewJuegosClient(cc grpc.ClientConnInterface) JuegosClient {
+	return &juegosClient{cc}
 }
 
-func (c *gameServiceClient) Play(ctx context.Context, in *PlayRequest, opts ...grpc.CallOption) (*PlayResponse, error) {
-	out := new(PlayResponse)
-	err := c.cc.Invoke(ctx, "/GameService/Play", in, out, opts...)
+func (c *juegosClient) Jugar(ctx context.Context, in *Partida, opts ...grpc.CallOption) (*Resultado, error) {
+	out := new(Resultado)
+	err := c.cc.Invoke(ctx, "/Juegos/Jugar", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// GameServiceServer is the server API for GameService service.
-// All implementations must embed UnimplementedGameServiceServer
+// JuegosServer is the server API for Juegos service.
+// All implementations must embed UnimplementedJuegosServer
 // for forward compatibility
-type GameServiceServer interface {
-	// Unary
-	Play(context.Context, *PlayRequest) (*PlayResponse, error)
-	mustEmbedUnimplementedGameServiceServer()
+type JuegosServer interface {
+	Jugar(context.Context, *Partida) (*Resultado, error)
+	mustEmbedUnimplementedJuegosServer()
 }
 
-// UnimplementedGameServiceServer must be embedded to have forward compatible implementations.
-type UnimplementedGameServiceServer struct {
+// UnimplementedJuegosServer must be embedded to have forward compatible implementations.
+type UnimplementedJuegosServer struct {
 }
 
-func (UnimplementedGameServiceServer) Play(context.Context, *PlayRequest) (*PlayResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Play not implemented")
+func (UnimplementedJuegosServer) Jugar(context.Context, *Partida) (*Resultado, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Jugar not implemented")
 }
-func (UnimplementedGameServiceServer) mustEmbedUnimplementedGameServiceServer() {}
+func (UnimplementedJuegosServer) mustEmbedUnimplementedJuegosServer() {}
 
-// UnsafeGameServiceServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to GameServiceServer will
+// UnsafeJuegosServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to JuegosServer will
 // result in compilation errors.
-type UnsafeGameServiceServer interface {
-	mustEmbedUnimplementedGameServiceServer()
+type UnsafeJuegosServer interface {
+	mustEmbedUnimplementedJuegosServer()
 }
 
-func RegisterGameServiceServer(s grpc.ServiceRegistrar, srv GameServiceServer) {
-	s.RegisterService(&GameService_ServiceDesc, srv)
+func RegisterJuegosServer(s grpc.ServiceRegistrar, srv JuegosServer) {
+	s.RegisterService(&Juegos_ServiceDesc, srv)
 }
 
-func _GameService_Play_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(PlayRequest)
+func _Juegos_Jugar_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Partida)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(GameServiceServer).Play(ctx, in)
+		return srv.(JuegosServer).Jugar(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/GameService/Play",
+		FullMethod: "/Juegos/Jugar",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(GameServiceServer).Play(ctx, req.(*PlayRequest))
+		return srv.(JuegosServer).Jugar(ctx, req.(*Partida))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// GameService_ServiceDesc is the grpc.ServiceDesc for GameService service.
+// Juegos_ServiceDesc is the grpc.ServiceDesc for Juegos service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var GameService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "GameService",
-	HandlerType: (*GameServiceServer)(nil),
+var Juegos_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "Juegos",
+	HandlerType: (*JuegosServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "Play",
-			Handler:    _GameService_Play_Handler,
+			MethodName: "Jugar",
+			Handler:    _Juegos_Jugar_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

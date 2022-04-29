@@ -2,18 +2,15 @@ syntax="proto3";
 
 option go_package = "github.com/Kanade-KA/protos/proto-go";
 
-message Game {
-  string Gamenumber=1;
-  string Players = 2;
+service Juegos {
+    rpc Jugar (Partida) returns (Resultado);
 }
 
-message PlayRequest {
-  Game game=1;
+message Partida {
+    int32 Juego = 1;
+    int32 Jugadores = 2;
 }
-message PlayResponse {
-  string message=1;
-}
-service GameService {
-  // Unary
-  rpc Play(PlayRequest) returns (PlayResponse){};
+
+message Resultado {
+    int32 Error = 1;
 }
